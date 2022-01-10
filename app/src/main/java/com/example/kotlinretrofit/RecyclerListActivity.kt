@@ -38,8 +38,10 @@ class RecyclerListActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setDisplayShowTitleEnabled(false)
 
+        binding.rvNews.layoutManager = LinearLayoutManager(this)
+
         setupViewModel("id","eaf0ed5151ec425098796b4b0e862245")
-        setupUI(::onItemClicked)
+//        setupUI(::onItemClicked)
         setupObservers("id","eaf0ed5151ec425098796b4b0e862245",::onItemClicked)
 
         // val news = mApiService.getListNews("id","eaf0ed5151ec425098796b4b0e862245")
@@ -83,17 +85,17 @@ class RecyclerListActivity : AppCompatActivity() {
         ).get(NewsViewModel::class.java)
     }
 
-    private fun setupUI(onItemClick: (ArticlesItem) -> Unit) {
-        binding.rvNews.layoutManager = LinearLayoutManager(this)
-        adapter = ListNewsAdapter(arrayListOf(), onItemClick)
-        binding.rvNews.addItemDecoration(
-            DividerItemDecoration(
-                binding.rvNews.context,
-                (binding.rvNews.layoutManager as LinearLayoutManager).orientation
-            )
-        )
-        binding.rvNews.adapter = adapter
-    }
+//    private fun setupUI(onItemClick: (ArticlesItem) -> Unit) {
+//        binding.rvNews.layoutManager = LinearLayoutManager(this)
+//        adapter = ListNewsAdapter(arrayListOf(), onItemClick)
+//        binding.rvNews.addItemDecoration(
+//            DividerItemDecoration(
+//                binding.rvNews.context,
+//                (binding.rvNews.layoutManager as LinearLayoutManager).orientation
+//            )
+//        )
+//        binding.rvNews.adapter = adapter
+//    }
 
     private fun setupObservers(id: String, key: String, onItemClick: (ArticlesItem) -> Unit) {
         viewModel.getData(id,key,onItemClick).observe(this, Observer {
