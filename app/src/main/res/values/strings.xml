@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">KotlinRetrofit</string>
+    <string name="title">Proxy untuk BI Fast</string>
+    <string name="description">Lupakan ribetnya bagikan nomor rekening untuk terima transfer. Dengan BI Fast, cukup pakai nomor handphone atau email!</string>
+    <string name="button_daftar">Daftar Sekarang</string>
+    <string name="second_title">Ini Second Activity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">This is Fragment</string>
+    <string name="button_second_activity">Go to Fragment</string>
+</resources>
