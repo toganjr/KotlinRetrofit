@@ -1,5 +1,6 @@
 package com.example.kotlinretrofit
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -17,8 +18,8 @@ class NewsViewModel(private val newsRepo: NewsRepository) : ViewModel() {
     fun getData() = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
             try {
-                val response = newsRepo.getData().awaitResponse()
-                emit(Resource.success(data = response.body()!!.articles))
+                val response = newsRepo.getData()
+                emit(Resource.success(data = response.body()))
             } catch (ex: Exception) {
                 emit(Resource.error(data = null, message = ex.message ?: "Error Occurred!"))
             }

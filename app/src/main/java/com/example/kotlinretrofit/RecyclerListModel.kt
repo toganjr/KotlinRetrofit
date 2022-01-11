@@ -17,6 +17,7 @@ import com.example.kotlinretrofit.connection.ApiHelper
 import com.example.kotlinretrofit.connection.ApiService
 import com.example.kotlinretrofit.connection.UtilsApi
 import com.example.kotlinretrofit.data.ArticlesItem
+import com.example.kotlinretrofit.data.ResponseNews
 import com.example.kotlinretrofit.databinding.ActivityRecyclerListBinding
 import retrofit2.awaitResponse
 import java.lang.Exception
@@ -71,13 +72,14 @@ class RecyclerListActivity : AppCompatActivity() {
                         binding.rvNews.visibility = View.VISIBLE
                         binding.pbNews.visibility = View.GONE
                         resource.data?.let { users ->
-                            retrieveList(users)
+                            retrieveList(users.articles)
                         }
                     }
                     Status.ERROR -> {
                         binding.rvNews.visibility = View.VISIBLE
                         binding.pbNews.visibility = View.GONE
                         Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                        Log.d("Coroutine error", "Error : "+it.message)
                     }
                     Status.LOADING -> {
                         binding.pbNews.visibility = View.VISIBLE
