@@ -11,12 +11,14 @@ import com.example.kotlinretrofit.repository.NewsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import retrofit2.awaitResponse
 
 class NewsViewModel(private val newsRepo: NewsRepository) : ViewModel() {
-    fun getData(id: String, key: String, onItemClick: (ArticlesItem) -> Unit) = liveData(Dispatchers.IO) {
+    fun getData() = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
             try {
-                emit(Resource.success(data = newsRepo.getData(id,key, onItemClick)))
+                val response = newsRepo.getData().awaitResponse()
+                emit(Resource.success(data = response.body()!!.articles))
             } catch (ex: Exception) {
                 emit(Resource.error(data = null, message = ex.message ?: "Error Occurred!"))
             }

@@ -12,7 +12,7 @@ import com.example.kotlinretrofit.databinding.CardviewNewsBinding
 import com.example.kotlinretrofit.viewholder.AdvancedViewHolder
 import com.google.gson.annotations.SerializedName
 
-class ListNewsAdapter(private val listNews: List<ArticlesItem>, private val onItemClick: (ArticlesItem) -> Unit) : RecyclerView.Adapter<AdvancedViewHolder>() {
+class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val onItemClick: (ArticlesItem) -> Unit) : RecyclerView.Adapter<AdvancedViewHolder>() {
 
     private lateinit var binding: CardviewNewsBinding
 
@@ -41,11 +41,11 @@ class ListNewsAdapter(private val listNews: List<ArticlesItem>, private val onIt
 
     override fun getItemCount(): Int = listNews.size
 
-//    fun addUsers(news: List<ArticlesItem>) {
-//        this.listNews.apply {
-//            clear()
-//            addAll(news)
-//        }
-//
-//    }
+    fun addUsers(news: List<ArticlesItem>) {
+        this.listNews.apply {
+            clear()
+            addAll(news)
+        }
+
+    }
 }

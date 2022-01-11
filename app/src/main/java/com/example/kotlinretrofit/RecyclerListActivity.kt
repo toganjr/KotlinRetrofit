@@ -18,6 +18,7 @@ import com.example.kotlinretrofit.connection.ApiService
 import com.example.kotlinretrofit.connection.UtilsApi
 import com.example.kotlinretrofit.data.ArticlesItem
 import com.example.kotlinretrofit.databinding.ActivityRecyclerListBinding
+import retrofit2.awaitResponse
 import java.lang.Exception
 
 class RecyclerListActivity : AppCompatActivity() {
@@ -38,44 +39,9 @@ class RecyclerListActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setDisplayShowTitleEnabled(false)
 
-        binding.rvNews.layoutManager = LinearLayoutManager(this)
-
         setupViewModel("id","eaf0ed5151ec425098796b4b0e862245")
-//        setupUI(::onItemClicked)
-        setupObservers("id","eaf0ed5151ec425098796b4b0e862245",::onItemClicked)
-
-        // val news = mApiService.getListNews("id","eaf0ed5151ec425098796b4b0e862245")
-
-//        binding.rvNews.layoutManager = LinearLayoutManager(this)
-//
-//        viewModel.getData("id","eaf0ed5151ec425098796b4b0e862245").observe(this, Observer { a ->
-//            a?.let { resource ->
-//            when (resource.status) {
-//                Status.LOADING -> {
-//                    binding.pbNews.visibility = View.VISIBLE
-//                    binding.rvNews.visibility = View.GONE
-//
-//
-//                }
-//                Status.SUCCESS -> {
-//                    binding.pbNews.visibility = View.GONE
-//                    binding.rvNews.visibility = View.VISIBLE
-//                    resource.data?.let {
-//                        try {
-//                            Log.d("Author", "onCreate: test")
-//                            val item = it
-//                            Log.d("Author", "onCreate: ${item.toString()}o")
-////                            val listNewsAdapter = ListNewsAdapter(item ,::onItemClicked)
-////                            binding.rvNews.adapter = listNewsAdapter
-////                            Log.d("Author2", "onCreate: "+ item[1].author)
-//                        } catch (ex: Exception) {
-//                            Log.d("AUTHOR", "onCreate: "+ex)
-//                        }
-//                    }
-//                }
-//            }
-//            }
-//        })
+        setupUI(::onItemClicked)
+        setupObservers()
     }
 
     private fun setupViewModel(id: String, key: String) {
@@ -85,26 +51,28 @@ class RecyclerListActivity : AppCompatActivity() {
         ).get(NewsViewModel::class.java)
     }
 
-//    private fun setupUI(onItemClick: (ArticlesItem) -> Unit) {
-//        binding.rvNews.layoutManager = LinearLayoutManager(this)
-//        adapter = ListNewsAdapter(arrayListOf(), onItemClick)
-//        binding.rvNews.addItemDecoration(
-//            DividerItemDecoration(
-//                binding.rvNews.context,
-//                (binding.rvNews.layoutManager as LinearLayoutManager).orientation
-//            )
-//        )
-//        binding.rvNews.adapter = adapter
-//    }
+    private fun setupUI(onItemClick: (ArticlesItem) -> Unit) {
+        binding.rvNews.layoutManager = LinearLayoutManager(this)
+        adapter = ListNewsAdapter(arrayListOf(), onItemClick)
+        binding.rvNews.addItemDecoration(
+            DividerItemDecoration(
+                binding.rvNews.context,
+                (binding.rvNews.layoutManager as LinearLayoutManager).orientation
+            )
+        )
+        binding.rvNews.adapter = adapter
+    }
 
-    private fun setupObservers(id: String, key: String, onItemClick: (ArticlesItem) -> Unit) {
-        viewModel.getData(id,key,onItemClick).observe(this, Observer {
+    private fun setupObservers() {
+        viewModel.getData().observe(this, Observer {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
                         binding.rvNews.visibility = View.VISIBLE
-//                        resource.data?.let { users -> retrieveList(users.execute().body()!!.articles)
-//                        }
+                        binding.pbNews.visibility = View.GONE
+                        resource.data?.let { users ->
+                            retrieveList(users)
+                        }
                     }
                     Status.ERROR -> {
                         binding.rvNews.visibility = View.VISIBLE
@@ -120,12 +88,12 @@ class RecyclerListActivity : AppCompatActivity() {
         })
     }
 
-//    private fun retrieveList(news: List<ArticlesItem>) {
-//        adapter.apply {
-//            addUsers(news)
-//            notifyDataSetChanged()
-//        }
-//    }
+    private fun retrieveList(news: List<ArticlesItem>) {
+        adapter.apply {
+            addUsers(news)
+            notifyDataSetChanged()
+        }
+    }
 
     private fun onItemClicked(data: ArticlesItem) {
         val moveIntent = Intent(Intent.ACTION_VIEW, Uri.parse(data.url))
