@@ -34,7 +34,6 @@ class RecyclerListActivity : AppCompatActivity() {
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setDisplayShowTitleEnabled(false)
-
         val apiService = ApiService
         val apiHelper = ApiHelper(apiService.getInstance(),"bitcoin", "eaf0ed5151ec425098796b4b0e862245")
         val mainRepository = NewsRepository(apiHelper)
