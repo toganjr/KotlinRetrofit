@@ -1,6 +1,7 @@
 package com.example.kotlinretrofit.adapter
 
 import android.text.method.TextKeyListener.clear
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,10 +24,10 @@ class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val
             onItemClick(listNews[it])
         }
 
+
     }
 
     override fun onBindViewHolder(holder: AdvancedViewHolder, position: Int) {
-
         val (publishedAt, author, urlToImage, description, source, title, url, content) = listNews[position]
 
         Glide.with(binding.root)
@@ -39,12 +40,23 @@ class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val
 
     }
 
+    // Code to fix bug position for recyclerview
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+    // Code to fix bug position for recyclerview
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
     override fun getItemCount(): Int = listNews.size
 
     fun addUsers(news: List<ArticlesItem>) {
         this.listNews.apply {
             clear()
             addAll(news)
+
         }
 
     }

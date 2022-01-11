@@ -38,8 +38,21 @@ class RecyclerListActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setDisplayShowTitleEnabled(false)
 
+        setupOnCreate()
+
+        binding.srlNews.setOnRefreshListener {
+            binding.srlNews.isRefreshing = false
+            setupOnRefresh()
+        }
+    }
+
+    private fun setupOnCreate(){
         setupViewModel("id","eaf0ed5151ec425098796b4b0e862245")
         setupUI(::onItemClicked)
+        setupObservers()
+    }
+
+    private fun setupOnRefresh(){
         setupObservers()
     }
 
@@ -71,13 +84,14 @@ class RecyclerListActivity : AppCompatActivity() {
                         binding.pbNews.visibility = View.GONE
                         resource.data?.let { users ->
                             retrieveList(users.articles)
+                            //Log.d("Coroutine test", "Response : "+users.articles)
                         }
                     }
                     Status.ERROR -> {
                         binding.rvNews.visibility = View.VISIBLE
                         binding.pbNews.visibility = View.GONE
                         Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-                        Log.d("Coroutine error", "Error : "+it.message)
+                        //Log.d("Coroutine error", "Error : "+it.message)
                     }
                     Status.LOADING -> {
                         binding.pbNews.visibility = View.VISIBLE
@@ -104,7 +118,5 @@ class RecyclerListActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
-
-
 
 }
