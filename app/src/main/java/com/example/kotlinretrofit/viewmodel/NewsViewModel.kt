@@ -1,18 +1,10 @@
-package com.example.kotlinretrofit
+package com.example.kotlinretrofit.viewmodel
 
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
-import com.example.kotlinretrofit.adapter.ListNewsAdapter
-import com.example.kotlinretrofit.data.ArticlesItem
-import com.example.kotlinretrofit.databinding.ActivityRecyclerListBinding
+import com.example.kotlinretrofit.Resource
 import com.example.kotlinretrofit.repository.NewsRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import retrofit2.awaitResponse
 
 class NewsViewModel(private val newsRepo: NewsRepository) : ViewModel() {
     fun getData() = liveData(Dispatchers.IO) {

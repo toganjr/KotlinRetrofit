@@ -14,13 +14,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlinretrofit.adapter.ListNewsAdapter
 import com.example.kotlinretrofit.connection.ApiHelper
-import com.example.kotlinretrofit.connection.ApiService
 import com.example.kotlinretrofit.connection.UtilsApi
 import com.example.kotlinretrofit.data.ArticlesItem
-import com.example.kotlinretrofit.data.ResponseNews
 import com.example.kotlinretrofit.databinding.ActivityRecyclerListBinding
-import retrofit2.awaitResponse
-import java.lang.Exception
+import com.example.kotlinretrofit.viewmodel.NewsViewModel
+import com.example.kotlinretrofit.viewmodel.ViewModelFactory
 
 class RecyclerListActivity : AppCompatActivity() {
 
@@ -48,7 +46,7 @@ class RecyclerListActivity : AppCompatActivity() {
     private fun setupViewModel(id: String, key: String) {
         viewModel = ViewModelProviders.of(
             this,
-            ViewModelFactory(ApiHelper(UtilsApi.apiService,id,key),binding)
+            ViewModelFactory(ApiHelper(UtilsApi.apiService,id,key))
         ).get(NewsViewModel::class.java)
     }
 

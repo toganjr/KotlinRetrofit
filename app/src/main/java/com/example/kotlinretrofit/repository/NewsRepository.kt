@@ -11,7 +11,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsRepository(private val apiHelper: ApiHelper, private val binding: ActivityRecyclerListBinding) {
+class NewsRepository(private val apiHelper: ApiHelper) {
     suspend fun getData() = apiHelper.getNews()
 }
 
