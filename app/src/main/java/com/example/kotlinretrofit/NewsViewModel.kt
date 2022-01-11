@@ -1,24 +1,43 @@
 package com.example.kotlinretrofit
 
-import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
-import com.example.kotlinretrofit.adapter.ListNewsAdapter
 import com.example.kotlinretrofit.data.ArticlesItem
-import com.example.kotlinretrofit.databinding.ActivityRecyclerListBinding
 import com.example.kotlinretrofit.repository.NewsRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import retrofit2.awaitResponse
 
-class NewsViewModel(private val newsRepo: NewsRepository) : ViewModel() {
-    fun getData(id: String, key: String, onItemClick: (ArticlesItem) -> Unit) = liveData(Dispatchers.IO) {
-        emit(Resource.loading(data = null))
-            try {
-                emit(Resource.success(data = newsRepo.getData(id,key, onItemClick)))
-            } catch (ex: Exception) {
-                emit(Resource.error(data = null, message = ex.message ?: "Error Occurred!"))
+class NewsViewModel (private val newsRepository: NewsRepository) : ViewModel() {
+    val errorMessage = MutableLiveData<String>()
+    val newsList = MutableLiveData<List<ArticlesItem>>()
+    var job: Job? = null
+    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        onError("Exception handled: ${throwable.localizedMessage}")
+    }
+    val loading = MutableLiveData<Boolean>()
+
+    fun getAllNews() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = newsRepository.getData().awaitResponse()
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    newsList.postValue(response.body()!!.articles)
+                    loading.value = false
+                } else {
+                    onError("Error : ${response.message()}")
+                }
             }
         }
     }
+
+    private fun onError(message: String) {
+        errorMessage.value = message
+        loading.value = false
+    }
+
+    override fun onCleared(){
+        super.onCleared()
+        job?.cancel()
+    }
+
+}
