@@ -8,7 +8,7 @@ import com.example.kotlinretrofit.repository.NewsRepository
 class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NewsViewModel::class.java)) {
-            return NewsViewModel(NewsRepository(apiHelper)) as T
+            return NewsViewModel(NewsRepository(apiHelper),false) as T
         }
         throw IllegalArgumentException("Unknown class name")
     }

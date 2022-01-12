@@ -19,12 +19,14 @@ import com.example.kotlinretrofit.data.ArticlesItem
 import com.example.kotlinretrofit.databinding.ActivityRecyclerListBinding
 import com.example.kotlinretrofit.viewmodel.NewsViewModel
 import com.example.kotlinretrofit.viewmodel.ViewModelFactory
+import kotlin.math.log
 
 class RecyclerListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRecyclerListBinding
     private lateinit var viewModel: NewsViewModel
     private lateinit var adapter: ListNewsAdapter
+    var times: Int = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +55,7 @@ class RecyclerListActivity : AppCompatActivity() {
     }
 
     private fun setupOnRefresh(){
-        setupObservers()
+        viewModel.setIsRefresh()
     }
 
     private fun setupViewModel(id: String, key: String) {
