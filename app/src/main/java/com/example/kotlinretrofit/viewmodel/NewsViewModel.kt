@@ -7,8 +7,8 @@ import com.example.kotlinretrofit.repository.NewsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
-class NewsViewModel(private val newsRepo: NewsRepository, private val status: Boolean) : ViewModel() {
-    var isRefresh = MutableLiveData(status)
+class NewsViewModel(private val newsRepo: NewsRepository) : ViewModel() {
+    var isRefresh = MutableLiveData(false)
     private var job = Job()
 
     fun getData() = Transformations.switchMap(isRefresh) {
