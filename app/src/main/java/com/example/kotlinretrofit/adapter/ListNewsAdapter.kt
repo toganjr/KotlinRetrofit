@@ -19,6 +19,7 @@ class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val
     private lateinit var binding: CardviewNewsBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdvancedViewHolder {
+        Log.d("ONCREATEVIEW PANGGIL", "onCreateViewHolder: ")
         binding = CardviewNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         // Code for Higher Order Function with Listener called in onCreateViewHolder with Binding
         return AdvancedViewHolder(binding.root) {
@@ -30,7 +31,6 @@ class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val
 
     override fun onBindViewHolder(holder: AdvancedViewHolder, position: Int) {
         val (publishedAt, author, urlToImage, description, source, title, url, content) = listNews[position]
-
         Glide.with(binding.root)
             .load(urlToImage)
             .into(binding.newsImage)
@@ -53,11 +53,19 @@ class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val
 
     override fun getItemCount(): Int = listNews.size
 
-    fun addUsers(news: List<ArticlesItem>) {
+    fun retrieveNews(news: List<ArticlesItem>) {
         this.listNews.apply {
             clear()
             addAll(news)
+            notifyDataSetChanged()
         }
-
     }
+
+    fun addNews(news: List<ArticlesItem>) {
+        this.listNews.apply {
+            addAll(news)
+            notifyDataSetChanged()
+        }
+    }
+
 }

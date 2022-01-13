@@ -8,5 +8,11 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
             Resource(status = Status.ERROR, data = data, message = message)
 
         fun <T> loading(data: T?): Resource<T> = Resource(status = Status.LOADING, data = data, message = null)
+
+        fun <T> next(data: T): Resource<T> = Resource(status = Status.NEXTPAGE, data = data, message = null)
+
+        fun <T> nextloading(data: T?): Resource<T> = Resource(status = Status.NEXTLOADING, data = data, message = null)
+
+        fun <T> endpage(data: T?): Resource<T> = Resource(status = Status.ENDPAGE, data = data, message = null)
     }
 }

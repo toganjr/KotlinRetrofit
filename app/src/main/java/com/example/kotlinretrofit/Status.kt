@@ -1,5 +1,5 @@
 package com.example.kotlinretrofit
 
 enum class Status {
-    SUCCESS,ERROR,LOADING
+    SUCCESS,ERROR,LOADING,NEXTPAGE,NEXTLOADING,ENDPAGE
 }

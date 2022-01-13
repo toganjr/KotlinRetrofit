@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
@@ -12,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinretrofit.adapter.ListNewsAdapter
 import com.example.kotlinretrofit.connection.ApiHelper
 import com.example.kotlinretrofit.connection.UtilsApi
@@ -19,14 +19,13 @@ import com.example.kotlinretrofit.data.ArticlesItem
 import com.example.kotlinretrofit.databinding.ActivityRecyclerListBinding
 import com.example.kotlinretrofit.viewmodel.NewsViewModel
 import com.example.kotlinretrofit.viewmodel.ViewModelFactory
-import kotlin.math.log
 
 class RecyclerListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRecyclerListBinding
     private lateinit var viewModel: NewsViewModel
     private lateinit var adapter: ListNewsAdapter
-    var times: Int = 0;
+    companion object var page = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +45,34 @@ class RecyclerListActivity : AppCompatActivity() {
             binding.srlNews.isRefreshing = false
             setupOnRefresh()
         }
+
+        binding.rvNews.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val position = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                if (position + 1 == adapter.itemCount) {
+                    setupNextPage(page)
+                } else {
+                    //Toast.makeText(baseContext, "first", Toast.LENGTH_LONG).show();
+                }
+            }
+        })
     }
 
     private fun setupOnCreate(){
-        setupViewModel("id","eaf0ed5151ec425098796b4b0e862245")
+        setupViewModel("id","0789501077004e41a91c34d61fd7ce0c")
         setupUI(::onItemClicked)
         setupObservers()
     }
 
     private fun setupOnRefresh(){
-        viewModel.setIsRefresh()
+        viewModel.setIsRefreshed()
+        viewModel.setPageNumber(1)
+        this.page = 2
+    }
+
+    private fun setupNextPage(page: Int){
+        viewModel.setPageNumber(page)
+        this.page++
     }
 
     private fun setupViewModel(id: String, key: String) {
@@ -84,6 +101,7 @@ class RecyclerListActivity : AppCompatActivity() {
                     Status.SUCCESS -> {
                         binding.rvNews.visibility = View.VISIBLE
                         binding.pbNews.visibility = View.GONE
+                        binding.pbNews2.visibility = View.GONE
                         resource.data?.let { users ->
                             retrieveList(users.articles)
                             //Log.d("Coroutine test", "Response : "+users.articles)
@@ -92,12 +110,33 @@ class RecyclerListActivity : AppCompatActivity() {
                     Status.ERROR -> {
                         binding.rvNews.visibility = View.VISIBLE
                         binding.pbNews.visibility = View.GONE
+                        binding.pbNews2.visibility = View.GONE
                         Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                         //Log.d("Coroutine error", "Error : "+it.message)
                     }
                     Status.LOADING -> {
                         binding.pbNews.visibility = View.VISIBLE
                         binding.rvNews.visibility = View.GONE
+                        binding.pbNews2.visibility = View.GONE
+                    }
+                    Status.NEXTPAGE -> {
+                        binding.rvNews.visibility = View.VISIBLE
+                        binding.pbNews.visibility = View.GONE
+                        binding.pbNews2.visibility = View.GONE
+                        resource.data?.let { users ->
+                            addList(users.articles)
+                        }
+                    }
+                    Status.NEXTLOADING -> {
+                        binding.rvNews.visibility = View.VISIBLE
+                        binding.pbNews.visibility = View.GONE
+                        binding.pbNews2.visibility = View.VISIBLE
+                    }
+                    Status.ENDPAGE -> {
+                        binding.rvNews.visibility = View.VISIBLE
+                        binding.pbNews.visibility = View.GONE
+                        binding.pbNews2.visibility = View.GONE
+                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -106,10 +145,13 @@ class RecyclerListActivity : AppCompatActivity() {
 
     private fun retrieveList(news: List<ArticlesItem>) {
         adapter.apply {
-            addUsers(news)
-            for(i in 0..news.size) {
-                notifyItemChanged(i)
-            }
+            retrieveNews(news)
+        }
+    }
+
+    private fun addList(news: List<ArticlesItem>) {
+        adapter.apply {
+            addNews(news)
         }
     }
 

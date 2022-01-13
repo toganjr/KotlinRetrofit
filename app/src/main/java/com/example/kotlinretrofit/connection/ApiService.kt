@@ -12,5 +12,5 @@ interface ApiService {
     suspend fun getListNews(@Query("country") country: String,
                             @Query("apiKey") apiKey: String,
                             @Query("pageSize") pageSize: Int,
-                            @Query("page") page: Int): Response<ResponseNews>
+                            @Query("page") page: Int?): Response<ResponseNews>
 }
