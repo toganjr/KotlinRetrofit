@@ -107,7 +107,9 @@ class RecyclerListActivity : AppCompatActivity() {
     private fun retrieveList(news: List<ArticlesItem>) {
         adapter.apply {
             addUsers(news)
-            notifyDataSetChanged()
+            for(i in 0..news.size) {
+                notifyItemChanged(i)
+            }
         }
     }
 

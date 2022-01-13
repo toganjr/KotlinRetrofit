@@ -15,10 +15,18 @@ class NewsViewModel(private val newsRepo: NewsRepository) : ViewModel() {
         job.cancel() // Cancel this job instance before returning liveData for new query
         job = Job()
         liveData(job + Dispatchers.IO) {
+            Log.d("Status refresh", "getData: "+isRefresh.value)
             emit(Resource.loading(data = null))
             try {
-                val response = newsRepo.getData()
-                emit(Resource.success(data = response.body()))
+                if (isRefresh.value == false) {
+                    val response = newsRepo.getData(5,1)
+                    emit(Resource.success(data = response.body()))
+                } else {
+                    val response = newsRepo.getData(5,1)
+                    emit(Resource.success(data = response.body()))
+                   // Log.d("Status Refresh", "getData: "+response.body()!!.articles)
+                }
+
             } catch (ex: Exception) {
                 emit(Resource.error(data = null, message = ex.message ?: "Error Occurred!"))
             }

@@ -12,6 +12,7 @@ import com.example.kotlinretrofit.data.Source
 import com.example.kotlinretrofit.databinding.CardviewNewsBinding
 import com.example.kotlinretrofit.viewholder.AdvancedViewHolder
 import com.google.gson.annotations.SerializedName
+import kotlin.math.log
 
 class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val onItemClick: (ArticlesItem) -> Unit) : RecyclerView.Adapter<AdvancedViewHolder>() {
 
@@ -56,7 +57,6 @@ class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val
         this.listNews.apply {
             clear()
             addAll(news)
-
         }
 
     }

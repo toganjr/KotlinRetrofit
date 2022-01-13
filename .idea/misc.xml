@@ -6,10 +6,13 @@
         <entry key="..\:/Users/TOGAN/AndroidStudioProjects/KotlinRetrofit/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/Users/TOGAN/AndroidStudioProjects/KotlinRetrofit/app/src/main/res/layout/activity_recycler_list.xml" value="0.3625" />
         <entry key="..\:/Users/TOGAN/AndroidStudioProjects/KotlinRetrofit/app/src/main/res/layout/imageview_news.xml" value="0.3625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/activity_recycler_list.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/cardview_news.xml" value="0.10364583333333334" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
