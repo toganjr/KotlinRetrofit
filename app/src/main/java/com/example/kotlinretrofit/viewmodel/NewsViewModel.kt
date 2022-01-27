@@ -7,8 +7,9 @@ import com.example.kotlinretrofit.Resource
 import com.example.kotlinretrofit.repository.NewsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import javax.inject.Inject
 
-class NewsViewModel(private val newsRepo: NewsRepository) : ViewModel() {
+class NewsViewModel @Inject constructor (private val newsRepo: NewsRepository) : ViewModel() {
     var isRefresh = MutableLiveData(false)
     var pageNumber = MutableLiveData(1)
     private var job = Job()
@@ -38,7 +39,7 @@ class NewsViewModel(private val newsRepo: NewsRepository) : ViewModel() {
         }
     }
 
-    fun setIsRefreshed(){
+    fun setRefreshed(){
         this.isRefresh.value = this.isRefresh.value != true
     }
 

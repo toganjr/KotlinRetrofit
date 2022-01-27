@@ -7,9 +7,10 @@
         <entry key="..\:/Users/TOGAN/AndroidStudioProjects/KotlinRetrofit/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/Users/TOGAN/AndroidStudioProjects/KotlinRetrofit/app/src/main/res/layout/activity_recycler_list.xml" value="0.3625" />
         <entry key="..\:/Users/TOGAN/AndroidStudioProjects/KotlinRetrofit/app/src/main/res/layout/imageview_news.xml" value="0.3625" />
+        <entry key="app/src/main/res/layout/activity_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/activity_recycler_list.xml" value="0.13697916666666668" />
-        <entry key="app/src/main/res/layout/cardview_news.xml" value="0.10364583333333334" />
+        <entry key="app/src/main/res/layout/cardview_news.xml" value="0.20060324870802423" />
       </map>
     </option>
   </component>

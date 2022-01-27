@@ -4,12 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinretrofit.connection.ApiHelper
 import com.example.kotlinretrofit.repository.NewsRepository
+import javax.inject.Inject
+import javax.inject.Provider
+import javax.inject.Singleton
 
-class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(NewsViewModel::class.java)) {
-            return NewsViewModel(NewsRepository(apiHelper)) as T
-        }
-        throw IllegalArgumentException("Unknown class name")
-    }
+@Singleton
+class ViewModelFactory @Inject constructor(private val viewModels: MutableMap<Class<out ViewModel>,
+        @JvmSuppressWildcards Provider<ViewModel>>): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        viewModels[modelClass]?.get() as T
 }

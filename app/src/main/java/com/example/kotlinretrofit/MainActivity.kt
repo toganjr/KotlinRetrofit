@@ -26,12 +26,8 @@ class MainActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setDisplayShowTitleEnabled(false)
 
-        val btnDaftar = findViewById<Button>(R.id.btn_daftar)
-        val tvTitle = findViewById<TextView>(R.id.title)
-
-
-        btnDaftar.setOnClickListener {
-            val message = tvTitle.text
+        binding.btnDaftar.setOnClickListener {
+            val message = binding.title.text
             val intent = Intent(this, RecyclerListActivity::class.java).apply {
                 putExtra(AlarmClock.EXTRA_MESSAGE, message)
             }

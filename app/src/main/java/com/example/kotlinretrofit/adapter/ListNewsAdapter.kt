@@ -1,29 +1,28 @@
 package com.example.kotlinretrofit.adapter
 
-import android.text.method.TextKeyListener.clear
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.kotlinretrofit.data.ArticlesItem
-import com.example.kotlinretrofit.data.ResponseNews
-import com.example.kotlinretrofit.data.Source
 import com.example.kotlinretrofit.databinding.CardviewNewsBinding
 import com.example.kotlinretrofit.viewholder.AdvancedViewHolder
-import com.google.gson.annotations.SerializedName
-import kotlin.math.log
 
-class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val onItemClick: (ArticlesItem) -> Unit) : RecyclerView.Adapter<AdvancedViewHolder>() {
+class ListNewsAdapter(private val listNews: ArrayList<ArticlesItem>, private val onItemClick: (ArticlesItem) -> Unit, private val onItemLongClicked: (ArticlesItem) -> Boolean) : RecyclerView.Adapter<AdvancedViewHolder>() {
 
     private lateinit var binding: CardviewNewsBinding
+
+    private fun sendListNews(pos: Int, listNews: ArrayList<ArticlesItem>) : ArticlesItem{
+        return listNews[pos]
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdvancedViewHolder {
         Log.d("ONCREATEVIEW PANGGIL", "onCreateViewHolder: ")
         binding = CardviewNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         // Code for Higher Order Function with Listener called in onCreateViewHolder with Binding
-        return AdvancedViewHolder(binding.root) {
-            onItemClick(listNews[it])
+        return AdvancedViewHolder(binding.root, onItemClick, onItemLongClicked) {
+            sendListNews(it,listNews)
         }
 
 

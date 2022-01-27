@@ -7,4 +7,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">This is Fragment</string>
     <string name="button_second_activity">Go to Fragment</string>
+
+    <string name="countryId">id</string>
+    <string name="apiKey">0789501077004e41a91c34d61fd7ce0c</string>
 </resources>
